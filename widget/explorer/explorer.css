@@ -1,0 +1,35 @@
+.explorer-icon{
+  background-image: url("images/minus-icon.png");
+  background-size: 100% 100%;
+  float: left;
+  height: 25px;
+  width: 25px;
+}
+.explorer-icon.collapsed{
+  background-image: url("images/plus-icon.png");
+}
+.explorer-title{
+  margin-left: 10px;
+}
+.explorer-header{
+  min-height: 30px;
+  font-size: 1.1em;
+}
+.explorer-child-node-margin{
+  margin-left: 25px;
+}
+.explorer-hide{
+  display: none;
+}
+
+.explorer-hidden{
+  visibility: hidden;
+}
+
+.explorer-title-icon{
+  background-size: 100% 100%;
+  float: left;
+  height: 25px;
+  width: 25px;
+  margin: 0px 3px;
+}

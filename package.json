@@ -1,0 +1,11 @@
+{
+  "name": "mViewer",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "mongo": "~0.1.0",
+    "vue": "~0.12.10",
+    "vue-route": "~1.5.1",
+    "bootstrap": "~3.3.5"
+  }
+}

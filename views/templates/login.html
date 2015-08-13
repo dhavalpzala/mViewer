@@ -1,0 +1,39 @@
+<div class="col-sm-6 col-md-5 col-centered">
+  <h1>Login</h1>
+  <form action="#" class="form-horizontal">
+      <div class="alert alert-danger" role="alert" v-show="loginError">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span> Error in login
+      </div>
+      <div class="form-group">
+          <div>
+              <input type="text" class="form-control" name="host" v-model="host" placeholder="Host" required>
+          </div>
+      </div>
+      <div class="form-group">
+          <div>
+              <input type="text" class="form-control" name="port" v-model="port" placeholder="port">
+          </div>
+      </div>
+      <div class="form-group">
+          <div>
+              <input type="text" class="form-control" name="username" v-model="username" placeholder="Username">
+          </div>
+      </div>
+      <div class="form-group">
+          <div>
+              <input type="text" class="form-control" name="password" v-model="password" placeholder="Password">
+          </div>
+      </div>
+      <div class="form-group">
+          <div>
+              <input type="text" class="form-control" name="database" v-model="database" placeholder="Database">
+          </div>
+      </div>
+      <div class="form-group">
+          <div>
+              <button type="submit" v-on="click: login" class="btn btn-default btn-block">Connect</button>
+          </div>
+      </div>
+  </form>
+</div>
