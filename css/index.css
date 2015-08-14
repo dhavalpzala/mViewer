@@ -1,4 +1,17 @@
+.height100{
+  height: 100%;
+}
+.width100{
+  width: 100%;
+}
+
 .col-centered{
     float: none;
     margin: 0 auto;
+}
+
+.record-results-list{
+    height: calc(100% - 80px);
+    overflow: auto;
+    padding-left: 0px;
 }

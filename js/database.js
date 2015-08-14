@@ -55,10 +55,11 @@ var Database = (function() {
 
             return promiseObj;
         },
-        getCollections: function() {
+        getCollections: function(dbName) {
+            var self = this;
             var promiseObj = new Promise(function(resolve, reject) {
                 if (_currentStatus === _status.connected) {
-                    //var db = _currentDb.db( dbName );
+                    self.useDatabase(dbName);
                     var db = _currentDb;
                     db.collections(function(err, cols) {
                         if (err) {
@@ -83,9 +84,11 @@ var Database = (function() {
 
             return promiseObj;
         },
-        getRecords: function(collectionName) {
+        getRecords: function(dbName, collectionName) {
+            var self = this;
             var promiseObj = new Promise(function(resolve, reject) {
                 if (_currentStatus === _status.connected) {
+                    self.useDatabase(dbName);
                     var currentCollection = _currentDb.collection(collectionName);
                     currentCollection.find(function(err, rec) {
                         if (err) {
@@ -119,7 +122,8 @@ var Database = (function() {
         addDatabase: function(dbName) {
             _currentDb.db(dbName);
         },
-        addCollection: function(collectionName) {
+        addCollection: function(dbName,collectionName) {
+            this.useDatabase(dbName);
             return _currentDb.createCollection(collectionName);
         },
         dropDatabase: function(dbName) {
@@ -130,10 +134,12 @@ var Database = (function() {
             });
             return dropDbPromise;
         },
-        dropCollection: function(collectionName) {
+        dropCollection: function(dbName, collectionName) {
+            this.useDatabase(dbName);
             return _currentDb.dropCollection(collectionName);
         },
-        addRecord: function(collectionName, records) {
+        addRecord: function(dbName, collectionName, records) {
+            this.useDatabase(dbName);
             return _currentDb.collection(collectionName).insert(records);
         },
         useDatabase: function(dbName){

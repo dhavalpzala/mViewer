@@ -7,7 +7,12 @@
 // {title: '4' , onclick: ''}]},
 // {title: '2' , onclick: ''},
 // {title: '3' , onclick: ''},
-// {title: '4' , onclick: ''}];
+// {title: '4' , onclick: '', contextMenu: [{title: "View", onclick: function(){
+//   alert("view");
+// } }  ,{ title: "Edit", onclick: function(){
+//       alert("Edit");
+//     }  }]
+//   }];
 
 (function(){
   var ID = function () {
@@ -20,8 +25,8 @@
   var template =   '<div class="explorer-header"><div class="explorer-icon"></div><div class="explorer-title-icon"></div><div class="explorer-title"></div></div>';
 
   this.Explorer = function(element, contents, options){
-        var explorerEventsArray = {};
-        var  titleProperty = options.titleProperty, iconProperty = options.iconProperty, childNodesProperty = options.childNodesProperty, clickProperty = options.clickProperty;
+        var explorerEventsObject = {}, contextMenusObject = {};
+        var titleProperty = options.titleProperty, iconProperty = options.iconProperty, childNodesProperty = options.childNodesProperty, clickProperty = options.clickProperty, contextMenuProperty = options.contextMenuProperty;
 
         function createTreeView(element, contents, options){
           if(contents){
@@ -44,8 +49,11 @@
               }
 
               if(clickProperty && item[clickProperty]){
-                  explorerEventsArray[explorerTitle.id] = item[clickProperty];
-                  //explorerTitle.addEventListener("click", item[clickProperty]);
+                  explorerEventsObject[explorerTitle.id] = item[clickProperty];
+              }
+
+              if(contextMenuProperty && item[contextMenuProperty]){
+                  contextMenusObject[explorerTitle.id] = item[contextMenuProperty];
               }
 
               element.appendChild(node);
@@ -71,23 +79,75 @@
           }
         }
 
+        // click event
         document.addEventListener("click", function(event){
-            var node = event.target;
+            var node = event.target,
+                contextMenu = element.querySelector(".explorer-contextmenu");
             if(node.classList.contains("explorer-title")){
-                var clickEvent = explorerEventsArray[node.id];
+                var clickEvent = explorerEventsObject[node.id];
                 if(clickEvent){
                     clickEvent();
                 }
             }
+
+            else if(node.classList.contains("explorer-contextmenu-item")){
+                var clickEvent = explorerEventsObject[node.id];
+                if(clickEvent){
+                    clickEvent();
+                    contextMenu.classList.add("explorer-hide");
+                }
+            }
+
+            else{
+              contextMenu.classList.add("explorer-hide");
+            }
         });
 
+        //context menu
+        document.addEventListener("contextmenu", function(event){
+            var node = event.target;
+            if(node.classList.contains("explorer-title")){
+                event.preventDefault();
+                var contextMenu = element.querySelector(".explorer-contextmenu");
+                if (contextMenu) {
+                  contextMenu.style.top = event.clientY + "px";
+                  contextMenu.style.left = event.clientX + "px";
+                  contextMenu.innerHTML = ""; // Remove previous menu items
+                  menuItems = contextMenusObject[node.id];
+                  if(menuItems){
+                    contextNode.classList.remove("explorer-hide");
+                  menuItems.forEach(function(item){
+                    var menuItemNode = document.createElement('div');
+                    menuItemNode.innerHTML = item[titleProperty];
+                    menuItemNode.id = ID();
+                    menuItemNode.classList.add("explorer-contextmenu-item");
+
+                    if(clickProperty && item[clickProperty]){
+                        explorerEventsObject[menuItemNode.id] = item[clickProperty];
+                    }
+
+                    contextMenu.appendChild(menuItemNode);
+                  });
+                }
+                }
+            }
+        });
+
+        //create tree view
         createTreeView(element, contents, options);
+
+        //add contextmenu
+        var contextNode = document.createElement('div');
+        contextNode.classList.add("explorer-contextmenu");
+        contextNode.classList.add("explorer-hide");
+        element.appendChild(contextNode);
   }
 })();
 
 // var container = document.getElementById("explorer-container");
-// explorer(container, data ,{
+// new Explorer(container, data ,{
 //                       titleProperty: "title",
 //                       iconProperty: "iconUrl",
 //                       childNodesProperty:  "childNodes",
-//                       clickProperty: "onclick"});
+//                       clickProperty: "onclick",
+//                       contextMenuProperty: "contextMenu"});

@@ -2,14 +2,16 @@
   background-image: url("images/minus-icon.png");
   background-size: 100% 100%;
   float: left;
-  height: 25px;
-  width: 25px;
+  height: 18px;
+  width: 18px;
+  margin-top: 4px;
 }
 .explorer-icon.collapsed{
   background-image: url("images/plus-icon.png");
 }
 .explorer-title{
   margin-left: 10px;
+  cursor: pointer;
 }
 .explorer-header{
   min-height: 30px;
@@ -32,4 +34,19 @@
   height: 25px;
   width: 25px;
   margin: 0px 3px;
+}
+.explorer-contextmenu{
+    background-color: white;
+    z-index: 10;
+    position: absolute;
+    border: 1px solid gray;
+}
+.explorer-contextmenu-item{
+    height: 30px;
+    padding: 5px 20px;
+    border-bottom: 1px solid gray;
+    min-width: 130px;
+}
+.explorer-contextmenu-item:last-child{
+    border-bottom: 0px solid gray;
 }

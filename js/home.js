@@ -18,7 +18,7 @@ var loginVM = new Vue({
         collectioName1: '',
         record: '',
         currentDb: '',
-        currentCollection: ''
+        currentCollection: '',
     },
     methods: {
         login: function(e) {
@@ -47,19 +47,15 @@ var loginVM = new Vue({
             // this.$data.currentCollection = '';
             // databaseVM.getCollection(name);
             var vm = this;
-            dbClient.useDatabase(dbName);
-            dbClient.getCollections().then(function(collections){
+            dbClient.getCollections(dbName).then(function(collections){
                 vm.collections = collections;
             });
         },
-        useDatabase: function(dbName){
-            dbClient.useDatabase(dbName);
-        },
-        getRecords: function(collectionName) {
+        getRecords: function(dbName, collectionName) {
             // this.$data.currentCollection = name;
             // databaseVM.getRecords(name);
             var vm = this;
-            dbClient.getRecords(collectionName).then(function(records){
+            dbClient.getRecords(dbName, collectionName).then(function(records){
                 vm.records = records;
             });
         },
@@ -71,16 +67,19 @@ var loginVM = new Vue({
             //databaseVM.addDatabase(this.$data.newdb, this.$data.newCollectionName);
             dbClient.addDatabase(this.$data.newdb);
         },
-        addCollection: function(e) {
-            e.preventDefault();
-            dbClient.addDatabase(this.$data.newCollectionName);
-            //databaseVM.addCollection(this.$data.collectioName1);
+        addCollection: function(dbName, collectionName) {
+            collectionName = this.$data.newCollectionName;
+            var promise = dbClient.addCollection(dbName, collectionName), vm = this;
+            promise.then(function(){
+                vm.generateTreeView();
+            }, function(){
+              alert("Error");
+            })
         },
         addDbAndCollection: function(e){
              e.preventDefault();
             var vm = this;
             vm.addDb(e);
-            vm.useDatabase(this.$data.newdb);
             vm.addCollection(e);
         },
         dropDatabase: function(name) {
@@ -97,7 +96,9 @@ var loginVM = new Vue({
         },
         generateTreeView: function(){
             var viewData = [],
-                container = document.getElementById("explorer-container");
+                container = document.getElementById("explorer-container"),
+                vm = this;
+                container.innerHTML = "";
             dbClient.getDatabases().then(function(dbs){
                 var counter = dbs.length;
                 dbs.forEach(function(db, index, array){
@@ -112,18 +113,26 @@ var loginVM = new Vue({
                     collectionsNode.title = "Collections";
                     collectionsNode.iconUrl = "../images/folder-icon.jpg";
                     collectionsNode.childNodes = [];
+                    collectionsNode.contextMenu = [{
+                      title: "Add Collection",
+                      onclick: function(){
+                         $("#collectionModal").modal('show');
+                      }
+                    }];
                     node.childNodes.push(collectionsNode);
                     // get collections
-                    dbClient.useDatabase(db);
-                    dbClient.getCollections().then(function(collections){
+                    dbClient.getCollections(db).then(function(collections){
                         if(collections && collections.length){
                            collections.forEach(function(collection){
                                var childNode = {};
                                childNode.title = collection.collectionName;
                                childNode.iconUrl = "../images/collection-icon.png";
                                childNode.onclick = function(){
-                                 alert(collection.collectionName);
+                                 vm.getRecords(db,collection.collectionName);
                                };
+                               childNode.contextMenu = [{title: "Delete", onclick: function(){
+                                  //vm.Delete
+                               }}];
                                collectionsNode.childNodes.push(childNode);
                            });
                         }
@@ -133,7 +142,8 @@ var loginVM = new Vue({
                         if(counter === 0){
                             new Explorer(container, viewData, { titleProperty: "title", iconProperty: "iconUrl",
                             childNodesProperty: "childNodes",
-                            clickProperty: "onclick"
+                            clickProperty: "onclick",
+                            contextMenuProperty: "contextMenu"
                           });
                         }
                     });

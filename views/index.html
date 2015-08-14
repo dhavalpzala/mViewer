@@ -1,139 +1,177 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>mViewer Application</title>
-    <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="../widget/explorer/explorer.css" rel="stylesheet" />
-      <link href="../css/index.css" rel="stylesheet" />
-    <script type="text/javascript" href="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
-  </head>
-  <body>
-    <div class="container login-container" v-show="!isloggedin">
-               <h1>
-               This is login page
-               </h1>
-               <form action="#" class="form-horizontal">
-                   <div class="alert alert-danger" role="alert" v-show="loginError">
-                       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                       <span class="sr-only">Error:</span> Error in login
-                   </div>
-                   <div class="form-group">
-                       <div class="col-sm-12">
-                           <input type="text" class="form-control" name="host" v-model="host" placeholder="Host" required>
-                       </div>
-                   </div>
-                   <div class="form-group">
-                       <div class="col-sm-12">
-                           <input type="text" class="form-control" name="port" v-model="port" placeholder="port">
-                       </div>
-                   </div>
-                   <div class="form-group">
-                       <div class="col-sm-12">
-                           <input type="text" class="form-control" name="username" v-model="username" placeholder="Username">
-                       </div>
-                   </div>
-                   <div class="form-group">
-                       <div class="col-sm-12">
-                           <input type="text" class="form-control" name="password" v-model="password" placeholder="Password">
-                       </div>
-                   </div>
-                   <div class="form-group">
-                       <div class="col-sm-12">
-                           <input type="text" class="form-control" name="database" v-model="database" placeholder="Database">
-                       </div>
-                   </div>
-                   <div class="form-group">
-                       <div class="col-sm-12">
-                           <button type="submit" v-on="click: login" class="btn btn-default btn-block">Connect</button>
-                       </div>
-                   </div>
-               </form>
-           </div>
-           <div class="container" v-show="isloggedin">
-             <div id="explorer-container">
+<html class="height100 width100">
+<head>
+  <meta charset="utf-8">
+  <title>mViewer Application</title>
+  <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+  <link href="../widget/explorer/explorer.css" rel="stylesheet" />
+  <link href="../css/index.css" rel="stylesheet" />
+  <!-- <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script> -->
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+<body class="height100 width100">
+  <div class="container login-container" v-show="!isloggedin">
+    <h1>
+      This is login page
+    </h1>
+    <form action="#" class="form-horizontal">
+      <div class="alert alert-danger" role="alert" v-show="loginError">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span> Error in login
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <input type="text" class="form-control" name="host" v-model="host" placeholder="Host" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <input type="text" class="form-control" name="port" v-model="port" placeholder="port">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <input type="text" class="form-control" name="username" v-model="username" placeholder="Username">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <input type="text" class="form-control" name="password" v-model="password" placeholder="Password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <input type="text" class="form-control" name="database" v-model="database" placeholder="Database">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <button type="submit" v-on="click: login" class="btn btn-default btn-block">Connect</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="height100 width100" v-show="isloggedin">
+    <div id="explorer-container" class="height100 col-md-3 col-sm-4 col-xs-12 col-lg-2">
+    </div>
 
-             </div>
-               <!-- <h1>You have successfully loggedin</h1>
-               <h2>list of databases bases</h2>
-               <ul>
-                   <li v-repeat="db in databases" v-on="click: getCollections(db) ">
-                       {{db}}
-                       <span v-on="click: dropDatabase( db )"> x </span>
-                   </li>
-               </ul>
-               <div style="width: 50%">
-                   <form action="#" v-on="submit: addDbAndCollection" class="form-horizontal">
-                       <div class="form-group">
-                           <div class="col-sm-12">
-                               <input type="text" class="form-control" name="newdb" v-model="newdb" placeholder="add database" />
-                           </div>
-                       </div>
-                       <div class="form-group">
-                           <div class="col-sm-12">
-                               <input type="text" class="form-control" name="newCollectionName" v-model="newCollectionName" placeholder="Collection name" />
-                           </div>
-                       </div>
-                       <div class="form-group">
-                           <div class="col-sm-12">
-                               <button type="submit" class="btn btn-default btn-block">Add DB</button>
-                           </div>
-                       </div>
-                   </form>
-               </div>
-               <div class="collection-wrapper">
-                   <h2>collections</h2>
-                   <ul v-show="collections.length">
-                       <li v-repeat="collections" v-on="click: getRecords( collectionName ) ">
-                           {{collectionName}}
-                           <span v-on="click: dropCollection( collectionName )"> x </span>
-                       </li>
-                   </ul>
-                   <p v-show="!collections.length">
-                       No collection found
-                   </p>
-                   <form action="#" v-on="submit: addCollection" class="form-horizontal">
-                       <div class="form-group">
-                           <div class="col-sm-12">
-                               <input type="text" class="form-control" name="collectioName1" v-model="collectioName1" placeholder="Collection name" />
-                           </div>
-                       </div>
-                       <div class="form-group">
-                           <div class="col-sm-12">
-                               <button type="submit" class="btn btn-default btn-block">Add add</button>
-                           </div>
-                       </div>
-                   </form>
-               </div>
-               <div class="records-wrapper">
-                   <h3>Records</h3>
-                   <ul v-show="records.length">
-                       <li v-repeat="records">
-                           <pre><code>{{ stringifyRecord( record ) }}</code></pre>
-                       </li>
-                   </ul>
-                   <p v-show="!records.length">
-                       NO collection found
-                   </p>
-                   <form action="#" v-on="submit: addRecord" class="form-horizontal">
-                       <div class="form-group">
-                           <div class="col-sm-12">
-                               <textarea type="text" class="form-control" name="record" v-model="record" placeholder="write proper json"></textarea>
-                           </div>
-                       </div>
-                       <div class="form-group">
-                           <div class="col-sm-12">
-                               <button type="submit" class="btn btn-default btn-block">Add add</button>
-                           </div>
-                       </div>
-                   </form>
-                   <div id="server-status">
-                       <pre><code v-text="serverStatus"></code></pre>
-                   </div>
-               </div> -->
-           </div>
-      <script src="../widget/explorer/explorer.js" type="text/javascript"> </script>
-      <script src="../js/database.js" type="text/javascript"> </script>
-      <script src="../js/home.js" type="text/javascript"> </script>
-  </body>
+    <!-- result view-->
+    <div class="height100 col-md-9 col-sm-8 col-xs-12 col-lg-10">
+
+      <!-- record contents -->
+      <div class="width100 height100" >
+        <h3>Records</h3>
+        <ul class="record-results-list" v-show="records.length">
+          <li v-repeat="records">
+            <pre><code>{{ stringifyRecord( record ) }}</code></pre>
+          </li>
+        </ul>
+        <p v-show="!records.length">
+          No collection found
+        </p>
+      </div>
+
+      <!-- add collection modal-->
+      <div id="collectionModal" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Add collection</h4>
+            </div>
+            <div class="modal-body">
+              <input type="text" name="collection-name" v-modal="newCollectionName" value="">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" v-on= "click: addCollection('test')">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- <h1>You have successfully loggedin</h1>
+    <h2>list of databases bases</h2>
+    <ul>
+    <li v-repeat="db in databases" v-on="click: getCollections(db) ">
+    {{db}}
+    <span v-on="click: dropDatabase( db )"> x </span>
+  </li>
+</ul>
+<div style="width: 50%">
+<form action="#" v-on="submit: addDbAndCollection" class="form-horizontal">
+<div class="form-group">
+<div class="col-sm-12">
+<input type="text" class="form-control" name="newdb" v-model="newdb" placeholder="add database" />
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-12">
+<input type="text" class="form-control" name="newCollectionName" v-model="newCollectionName" placeholder="Collection name" />
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-12">
+<button type="submit" class="btn btn-default btn-block">Add DB</button>
+</div>
+</div>
+</form>
+</div>
+<div class="collection-wrapper">
+<h2>collections</h2>
+<ul v-show="collections.length">
+<li v-repeat="collections" v-on="click: getRecords( collectionName ) ">
+{{collectionName}}
+<span v-on="click: dropCollection( collectionName )"> x </span>
+</li>
+</ul>
+<p v-show="!collections.length">
+No collection found
+</p>
+<form action="#" v-on="submit: addCollection" class="form-horizontal">
+<div class="form-group">
+<div class="col-sm-12">
+<input type="text" class="form-control" name="collectioName1" v-model="collectioName1" placeholder="Collection name" />
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-12">
+<button type="submit" class="btn btn-default btn-block">Add add</button>
+</div>
+</div>
+</form>
+</div>
+<div class="records-wrapper">
+<h3>Records</h3>
+<ul v-show="records.length">
+<li v-repeat="records">
+<pre><code>{{ stringifyRecord( record ) }}</code></pre>
+</li>
+</ul>
+<p v-show="!records.length">
+NO collection found
+</p>
+<form action="#" v-on="submit: addRecord" class="form-horizontal">
+<div class="form-group">
+<div class="col-sm-12">
+<textarea type="text" class="form-control" name="record" v-model="record" placeholder="write proper json"></textarea>
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-12">
+<button type="submit" class="btn btn-default btn-block">Add add</button>
+</div>
+</div>
+</form>
+<div id="server-status">
+<pre><code v-text="serverStatus"></code></pre>
+</div>
+</div> -->
+
+<script src="../widget/explorer/explorer.js" type="text/javascript"> </script>
+<script src="../js/database.js" type="text/javascript"> </script>
+<script src="../js/home.js" type="text/javascript"> </script>
+</body>
 </html>
