@@ -96,7 +96,7 @@ var Database = (function() {
                         } else {
                             var records = [];
                             rec.forEach(function(doc) {
-                                loginVM.records.push({
+                                records.push({
                                     record: doc
                                 });
                             })

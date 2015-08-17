@@ -1,26 +1,31 @@
-
-// var pages = { login: 1 , home: 2 }
-// var currentPage = pages.login;
-//
-// var pageVM =
 var Vue = require("vue"),
-Route = require('vue-route');
+    VueRouter = require("vue-router"),
+    dbClient = new Database();
+// Tell Vue to use view-router
+Vue.use(VueRouter)
 
-Vue.use(Route);
+// Router options
+var router = new VueRouter({
+   history: false
+})
 
-var routes = new Vue({
-  el: 'body',
-  routes: {
-    '/login': {
-      componentId: "login",
-      isDefault: true
-    },
-    '/index': {
-      componentId: 'home'
-    }
-  },
-  options: {
-    hashbang: true
-  },
-  defaultRoute: "/login"
+// Router map for defining components
+// You can use template:  require('/path/to/component.html')
+router.map({
+   // For Not Found template
+   '*': {
+      component: require('../js/login.js')
+   },
+
+   '/': {
+     component: require('../js/login.js')
+   },
+
+   '/home': {
+      component: require('../js/home.js')
+   }
 });
+
+var App = Vue.extend()
+
+router.start(App, '#app')
