@@ -57,15 +57,15 @@
       </form>
     </div>
   </template>
-
+  
   <!-- home page -->
   <template id="homeTemplate">
     <div class="height100 width100">
-      <div id="explorer-container" class="height100 col-md-3 col-sm-4 col-xs-12 col-lg-2">
+      <div id="explorer-container" class="height100 col-md-4 col-sm-5 col-xs-12 col-lg-3">
       </div>
 
       <!-- result view-->
-      <div class="height100 col-md-9 col-sm-8 col-xs-12 col-lg-10">
+      <div class="height100 col-md-8 col-sm-7 col-xs-12 col-lg-9">
 
         <!-- record contents -->
         <div class="width100 height100" >
@@ -79,110 +79,36 @@
             No collection found
           </p>
         </div>
+      </div>
+    </div>
+    <prompt id="add-database-Modal" header="Add Database" when-added="{{ addDatabase }}" ></prompt>
+    <prompt id="add-collection-modal" header="Add Collection" when-added="{{ addCollection }}" ></prompt>
+    <prompt id="add-record-modal" header="Add Record" when-added="{{ addRecord }}" ></prompt>
 
-        <!-- add collection modal-->
-        <div id="collectionModal" class="modal fade">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add collection</h4>
-              </div>
-              <div class="modal-body">
-                <input type="text" name="collection-name" v-modal="newCollectionName" value="">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" v-on= "click: addCollection('test', newCollectionName)">Add</button>
-              </div>
-            </div>
+  </template>
+  <!-- prompt template-->
+  <template id="promptTemplate">
+    <div id="{{id}}" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">{{header}}</h4>
+          </div>
+          <div class="modal-body">
+            <input type="text" v-model="promptInput" value="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" v-on="click: callback">Add</button>
           </div>
         </div>
       </div>
     </div>
   </template>
-    <!-- <h1>You have successfully loggedin</h1>
-    <h2>list of databases bases</h2>
-    <ul>
-    <li v-repeat="db in databases" v-on="click: getCollections(db) ">
-    {{db}}
-    <span v-on="click: dropDatabase( db )"> x </span>
-  </li>
-</ul>
-<div style="width: 50%">
-<form action="#" v-on="submit: addDbAndCollection" class="form-horizontal">
-<div class="form-group">
-<div class="col-sm-12">
-<input type="text" class="form-control" name="newdb" v-model="newdb" placeholder="add database" />
-</div>
-</div>
-<div class="form-group">
-<div class="col-sm-12">
-<input type="text" class="form-control" name="newCollectionName" v-model="newCollectionName" placeholder="Collection name" />
-</div>
-</div>
-<div class="form-group">
-<div class="col-sm-12">
-<button type="submit" class="btn btn-default btn-block">Add DB</button>
-</div>
-</div>
-</form>
-</div>
-<div class="collection-wrapper">
-<h2>collections</h2>
-<ul v-show="collections.length">
-<li v-repeat="collections" v-on="click: getRecords( collectionName ) ">
-{{collectionName}}
-<span v-on="click: dropCollection( collectionName )"> x </span>
-</li>
-</ul>
-<p v-show="!collections.length">
-No collection found
-</p>
-<form action="#" v-on="submit: addCollection" class="form-horizontal">
-<div class="form-group">
-<div class="col-sm-12">
-<input type="text" class="form-control" name="collectioName1" v-model="collectioName1" placeholder="Collection name" />
-</div>
-</div>
-<div class="form-group">
-<div class="col-sm-12">
-<button type="submit" class="btn btn-default btn-block">Add add</button>
-</div>
-</div>
-</form>
-</div>
-<div class="records-wrapper">
-<h3>Records</h3>
-<ul v-show="records.length">
-<li v-repeat="records">
-<pre><code>{{ stringifyRecord( record ) }}</code></pre>
-</li>
-</ul>
-<p v-show="!records.length">
-NO collection found
-</p>
-<form action="#" v-on="submit: addRecord" class="form-horizontal">
-<div class="form-group">
-<div class="col-sm-12">
-<textarea type="text" class="form-control" name="record" v-model="record" placeholder="write proper json"></textarea>
-</div>
-</div>
-<div class="form-group">
-<div class="col-sm-12">
-<button type="submit" class="btn btn-default btn-block">Add add</button>
-</div>
-</div>
-</form>
-<div id="server-status">
-<pre><code v-text="serverStatus"></code></pre>
-</div>
-</div> -->
-
-<script src="../widget/explorer/explorer.js" type="text/javascript"> </script>
-<script src="../js/database.js" type="text/javascript"> </script>
-<!-- <script src="../js/login.js" type="text/javascript"> </script> -->
-<script src="../js/app.js" type="text/javascript"> </script>
-<!-- <script src="../js/home.js" type="text/javascript"> </script> -->
+  <script src="../widget/explorer/explorer.js" type="text/javascript"> </script>
+  <script src="../js/database.js" type="text/javascript"> </script>
+  <script src="../js/app.js" type="text/javascript"> </script>
+  <script src="../js/prompt.js" type="text/javascript"> </script>
 </body>
 </html>

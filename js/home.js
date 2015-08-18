@@ -3,7 +3,8 @@ module.exports = {
   data: function () {
     return {
       records: [],
-      newCollectionName: ''
+      selectedDb: null,
+      selectedCollection: null
     }
   },
   methods: {
@@ -14,17 +15,12 @@ module.exports = {
       });
     },
     getCollections: function(dbName) {
-      // this.$data.currentDb = name;
-      // this.$data.currentCollection = '';
-      // databaseVM.getCollection(name);
       var vm = this;
       dbClient.getCollections(dbName).then(function(collections){
         vm.collections = collections;
       });
     },
     getRecords: function(dbName, collectionName) {
-      // this.$data.currentCollection = name;
-      // databaseVM.getRecords(name);
       var vm = this;
       dbClient.getRecords(dbName, collectionName).then(function(records){
         vm.records = records;
@@ -33,37 +29,44 @@ module.exports = {
     stringifyRecord: function(r) {
       return JSON.stringify(r, null, "  ");
     },
-    addDb: function(e) {
-      e.preventDefault();
-      //databaseVM.addDatabase(this.$data.newdb, this.$data.newCollectionName);
-      dbClient.addDatabase(this.$data.newdb);
-    },
-    addCollection: function(dbName, collectionName) {
-      collectionName = this.$data.newCollectionName;
-      var promise = dbClient.addCollection(dbName, collectionName), vm = this;
+    addDatabase: function(dbName) {
+      var vm = this;
+      var promise = dbClient.addDatabase(dbName);
       promise.then(function(){
         vm.generateTreeView();
-      }, function(){
-        alert("Error");
-      })
+      }, vm.errorHandler);
+      return promise;
     },
-    addDbAndCollection: function(e){
-      e.preventDefault();
+    addCollection: function(collectionName) {
       var vm = this;
-      vm.addDb(e);
-      vm.addCollection(e);
+      var promise = dbClient.addCollection(this.selectedDb, collectionName);
+      promise.then(function(){
+        vm.generateTreeView();
+      }, vm.errorHandler);
+      return promise;
     },
-    dropDatabase: function(name) {
-      dbClient.dropDatabase(name);
-      this.getDatabases();
+    addRecord: function(record) {
+      var vm = this;
+      var promise = dbClient.addRecord(this.selectedDb, this.selectedCollection ,JSON.parse(record));
+      promise.then(function(){
+        alert("Record inserted");
+      }, vm.errorHandler);
+      return promise;
     },
-    dropCollection: function(name) {
-      dbClient.dropCollection(name);
-      this.getCollections();
+    dropDatabase: function(dbName) {
+      var vm = this;
+      dbClient.dropDatabase(dbName).then(function(){
+        vm.generateTreeView();
+      }, vm.errorHandler);
     },
-    addRecord: function(e) {
-      e.preventDefault();
-      dbClient.addRecord(JSON.parse(this.$data.record));
+    dropCollection: function(dbName, collectionName) {
+      var vm = this;
+      dbClient.dropCollection(dbName, collectionName).then(function(){
+        vm.generateTreeView();
+      }, vm.errorHandler);
+    },
+    errorHandler: function(ex){
+      alert("Something went wrong");
     },
     generateTreeView: function(){
       var viewData = [],
@@ -72,12 +75,32 @@ module.exports = {
       container.innerHTML = "";
       dbClient.getDatabases().then(function(dbs){
         var counter = dbs.length;
+
+        // add database folder
+        var rootNode = {};
+        rootNode.title = "Databases";
+        rootNode.iconUrl = "../images/db-icon.jpg";
+        rootNode.childNodes = [];
+        rootNode.contextMenu = [{title: "Add Database",
+        onclick: function(){
+            $("#add-database-Modal").modal('show');
+          }
+        }];
+
+        viewData.push(rootNode);
+
         dbs.forEach(function(db, index, array){
           var node = {};
           node.title = db;
           node.iconUrl = "../images/database-icon.jpg";
           node.childNodes = [];
-          viewData.push(node);
+          node.contextMenu = [{
+            title: "Drop Database",
+            onclick: function(){
+                vm.dropDatabase(db);
+            }
+          }];
+          rootNode.childNodes.push(node);
 
           // add collections folder
           var collectionsNode = {};
@@ -87,7 +110,8 @@ module.exports = {
           collectionsNode.contextMenu = [{
             title: "Add Collection",
             onclick: function(){
-              $("#collectionModal").modal('show');
+                vm.selectedDb = db;
+                $("#add-collection-modal").modal('show');
             }
           }];
           node.childNodes.push(collectionsNode);
@@ -101,8 +125,12 @@ module.exports = {
                 childNode.onclick = function(){
                   vm.getRecords(db,collection.collectionName);
                 };
-                childNode.contextMenu = [{title: "Delete", onclick: function(){
-                  //vm.Delete
+                childNode.contextMenu = [{title: "Add Record", onclick: function(){
+                  vm.selectedDb = db;
+                  vm.selectedCollection = collection.collectionName;
+                  $("#add-record-modal").modal('show');
+                }},{title: "Drop Collection", onclick: function(){
+                  vm.dropCollection(db, collection.collectionName);
                 }}];
                 collectionsNode.childNodes.push(childNode);
               });
