@@ -4,7 +4,9 @@ module.exports = {
     return {
       records: [],
       selectedDb: null,
-      selectedCollection: null
+      selectedCollection: null,
+      explorerObj: null,
+      temp: ["hello"]
     }
   },
   methods: {
@@ -72,7 +74,7 @@ module.exports = {
       var viewData = [],
       container = document.getElementById("explorer-container"),
       vm = this;
-      container.innerHTML = "";
+      //container.innerHTML = "";
       dbClient.getDatabases().then(function(dbs){
         var counter = dbs.length;
 
@@ -136,14 +138,21 @@ module.exports = {
               });
             }
 
+
             // last database element
             counter--;
             if(counter === 0){
-              new Explorer(container, viewData, { titleProperty: "title", iconProperty: "iconUrl",
-              childNodesProperty: "childNodes",
-              clickProperty: "onclick",
-              contextMenuProperty: "contextMenu"
-            });
+              vm.$data.temp = viewData;
+              if(vm.$data.explorerObj){
+                  vm.$data.explorerObj.update(viewData);
+              }
+              else{
+                  vm.$data.explorerObj = new Explorer(container, viewData, { titleProperty: "title", iconProperty: "iconUrl",
+                  childNodesProperty: "childNodes",
+                  clickProperty: "onclick",
+                  contextMenuProperty: "contextMenu"
+                });
+              }
           }
         });
       });

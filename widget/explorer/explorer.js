@@ -1,18 +1,4 @@
-// var data = [{title: '1' , onclick: function(){ alert("1")}, childNodes: [{title: '2' , onclick: '', iconUrl: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQksKsAGoBzu9Z2OMgzhf7KelvG_dcClRasCX6MIcjpGzLNK8fCyg"},
-// {title: '3' , onclick: '', childNodes: [{title: '2' , onclick: ''},
-// {title: '3' , onclick: '',childNodes: [{title: '2' , onclick: ''},
-// {title: '3' , onclick: ''},
-// {title: '4' , onclick: ''}]},
-// {title: '4' , onclick: ''}]},
-// {title: '4' , onclick: ''}]},
-// {title: '2' , onclick: ''},
-// {title: '3' , onclick: ''},
-// {title: '4' , onclick: '', contextMenu: [{title: "View", onclick: function(){
-//   alert("view");
-// } }  ,{ title: "Edit", onclick: function(){
-//       alert("Edit");
-//     }  }]
-//   }];
+//var data1 = [{"title":"Databases","iconUrl":"../images/db-icon.jpg","childNodes":[{"title":"admin","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdsad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"local","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"startup_log","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdaddasd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"te25","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"Collection 1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"test6777","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"coll2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"dadsadsads","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll3","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll5","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"collll23","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asddd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"adasadad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test2","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"coll1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test22","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"coll1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"c","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test23","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test24","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test26","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test27","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test28","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test29","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]}],"contextMenu":[{"title":"Add Database"}]}][{"title":"Databases","iconUrl":"../images/db-icon.jpg","childNodes":[{"title":"admin","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdsad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"local","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"startup_log","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdaddasd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"te25","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"Collection 1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"test6777","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"coll2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"dadsadsads","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll3","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll5","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"collll23","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asddd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"adasadad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test2","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"coll1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test22","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"coll1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"c","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test23","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test24","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test26","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test27","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test28","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test29","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]}],"contextMenu":[{"title":"Add Database"}]}];
 
 (function(){
   var ID = function () {
@@ -72,6 +58,48 @@
         });
       }
     }
+
+    this.update = function (newContents) {
+      //var oldContents = contents, result, currentNode = element;
+      updateTreeView(element, contents, newContents);
+      contents = newContents;
+    }
+
+    function updateTreeView(currentElement, oldContents, newContents){
+      var result, node;
+      newContents.forEach(function(item, index){
+        //added condition
+        if(oldContents.length <= index){
+          createTreeView(currentElement, [newContents[index]],options);
+        }
+        else{
+          result = objectComparator(oldContents[index], item);
+          if(result.length > 0){
+            node = currentElement.children[index];
+            result.forEach(function(resultItem){
+              if(resultItem.property === titleProperty){
+                node.querySelector(".explorer-title").style.color = "green";
+                node.querySelector(".explorer-title").innerHTML = item[titleProperty];
+              }
+              if(resultItem.property === childNodesProperty){
+                var childNode = node.querySelector(".explorer-child-node");
+                if(!childNode){
+                  var explorerIcon = node.querySelector(".explorer-icon");
+                  explorerIcon.addEventListener("click", toggleChildNodes);
+                  explorerIcon.classList.remove("explorer-hidden");
+
+                  childNode = document.createElement('div');
+                  childNode.className = "explorer-child-node explorer-child-node-margin explorer-hide";
+                  node.appendChild(childNode);
+                }
+                updateTreeView(childNode, oldContents[index][childNodesProperty], item[childNodesProperty]);
+              }
+            });
+          }
+        }
+      });
+    }
+
     function toggleChildNodes(event){
       var icon = event.currentTarget;
       var node = icon.parentNode.parentNode;
@@ -143,6 +171,75 @@
     //create tree view
     createTreeView(element, contents, options);
 
+    //object comparator function
+    function objectComparator(sourceObject, targetObject){
+        var result = [];
+
+        //check for added and changed property
+        for (var property in targetObject) {
+            if(sourceObject[property] !== undefined){
+                if(typeof targetObject[property] === 'function'){
+
+                }
+                else if(typeof targetObject[property] === 'object'){
+                    if(objectComparator(sourceObject[property] , targetObject[property]).length > 0){
+                        result.push({property: property, comment: "changed"});
+                    }
+                }
+
+                else if(Array.isArray(targetObject[property])){
+                    if(!arrayComparator(sourceObject[property] , targetObject[property])){
+                        result.push({property: property, comment: "changed"});
+                    }
+                }
+                else if(sourceObject[property] !== targetObject[property]){
+                  result.push({property: property, comment: "changed"});
+                }
+            }
+            else{
+              result.push({property: property, comment: "added"});
+            }
+        }
+
+        //check for removed property
+        for (var property in sourceObject) {
+          if(targetObject[property] === undefined){
+            result.push({property: property, comment: "removed"});
+          }
+        }
+
+        return result;
+    }
+
+    function arrayComparator(sourceArray, targetArray){
+        if(Array.isArray(sourceArray) && Array.isArray(targetArray) && sourceArray.length === targetArray.length){
+            for (var index = 0; index < targetArray.length; index++) {
+              var item = targetArray[index];
+              if(typeof item === 'function'){
+
+              }
+              else if(typeof item === 'object'){
+                  if(objectComparator(sourceArray[index] , item).length > 0){
+                      return false;
+                  }
+              }
+
+              else if(Array.isArray(item)){
+                  if(arrayComparator(sourceArray[index] , item)){
+                      return false;
+                  }
+              }
+              else if(sourceArray[index] !== item){
+                  return false;
+              }
+            }
+            return true;
+        }
+        else{
+          return false;
+        }
+    }
+
     //add contextmenu
     var contextNode = document.createElement('div');
     contextNode.classList.add("explorer-contextmenu");
@@ -151,10 +248,16 @@
   }
 })();
 
-// var container = document.getElementById("explorer-container");
-// new Explorer(container, data ,{
-//                       titleProperty: "title",
-//                       iconProperty: "iconUrl",
-//                       childNodesProperty:  "childNodes",
-//                       clickProperty: "onclick",
-//                       contextMenuProperty: "contextMenu"});
+// var data = [{"title":"Databases","iconUrl":"../images/db-icon.jpg","childNodes":[{"title":"admin","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdsad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"admincoll","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"local","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"startup_log","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdaddasd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"Collection 1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"test6777","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"coll2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"dadsadsads","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll3","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll5","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"collll23","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asddd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"adasadad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]}],"contextMenu":[{"title":"Add Database"}]}];var data1 = [{"title":"Databases","iconUrl":"../images/db-icon.jpg","childNodes":[{"title":"admin","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdsad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"admincoll","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"local","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"startup_log","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdaddasd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"Collection 1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"test6777","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"coll2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"dadsadsads","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll3","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll5","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"collll23","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asddd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"adasadad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]}],"contextMenu":[{"title":"Add Database"}]}];
+// var container = document.getElementById("explorer-container-test");
+// var expObj = new Explorer(container, data ,{ titleProperty: "title", iconProperty: "iconUrl",
+// childNodesProperty: "childNodes",
+// clickProperty: "onclick",
+// contextMenuProperty: "contextMenu"
+// });
+//
+// var dataT = [{"title":"Databases1","iconUrl":"../images/db-icon.jpg","childNodes":[{"title":"admin","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdsad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"admincoll","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}, {"title":"new coll","iconUrl":"../images/collection-icon.png"}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"local","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"startup_log","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdaddasd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"Collection 1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"test6777","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"coll2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"dadsadsads","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll3","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll5","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"collll23","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asddd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"adasadad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]}],"contextMenu":[{"title":"Add Database"}]}];var data1 = [{"title":"Databases","iconUrl":"../images/db-icon.jpg","childNodes":[{"title":"admin","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdsad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"admincoll","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"local","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"startup_log","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asdaddasd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"title":"test","iconUrl":"../images/database-icon.jpg","childNodes":[{"title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"title":"Collection 1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"test6777","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"coll2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"dadsadsads","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll3","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"colll5","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"collll23","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"asddd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"title":"adasadad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]}],"contextMenu":[{"title":"Add Database"}]}];
+// expObj.update(dataT);
+// var target = { data: "", value: "", key: "adad", childNode: [{key: ""}]}
+// var source = { data: "", item: "", value:"asdad", childNode: [{}]}
+// console.log(objectComparator(source , target));
