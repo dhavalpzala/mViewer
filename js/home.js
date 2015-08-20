@@ -5,8 +5,7 @@ module.exports = {
       records: [],
       selectedDb: null,
       selectedCollection: null,
-      explorerObj: null,
-      temp: ["hello"]
+      explorerObj: null
     }
   },
   methods: {
@@ -80,6 +79,7 @@ module.exports = {
 
         // add database folder
         var rootNode = {};
+        rootNode.id = "databases";
         rootNode.title = "Databases";
         rootNode.iconUrl = "../images/db-icon.jpg";
         rootNode.childNodes = [];
@@ -93,6 +93,7 @@ module.exports = {
 
         dbs.forEach(function(db, index, array){
           var node = {};
+          node.id = db;
           node.title = db;
           node.iconUrl = "../images/database-icon.jpg";
           node.childNodes = [];
@@ -106,6 +107,7 @@ module.exports = {
 
           // add collections folder
           var collectionsNode = {};
+          collectionsNode.id = "collections";
           collectionsNode.title = "Collections";
           collectionsNode.iconUrl = "../images/folder-icon.jpg";
           collectionsNode.childNodes = [];
@@ -122,27 +124,26 @@ module.exports = {
             if(collections && collections.length){
               collections.forEach(function(collection){
                 var childNode = {};
-                childNode.title = collection.collectionName;
+                childNode.id = collection;
+                childNode.title = collection;
                 childNode.iconUrl = "../images/collection-icon.png";
                 childNode.onclick = function(){
-                  vm.getRecords(db,collection.collectionName);
+                  vm.getRecords(db,collection);
                 };
                 childNode.contextMenu = [{title: "Add Record", onclick: function(){
                   vm.selectedDb = db;
-                  vm.selectedCollection = collection.collectionName;
+                  vm.selectedCollection = collection;
                   $("#add-record-modal").modal('show');
                 }},{title: "Drop Collection", onclick: function(){
-                  vm.dropCollection(db, collection.collectionName);
+                  vm.dropCollection(db, collection);
                 }}];
                 collectionsNode.childNodes.push(childNode);
               });
             }
 
-
             // last database element
             counter--;
             if(counter === 0){
-              vm.$data.temp = viewData;
               if(vm.$data.explorerObj){
                   vm.$data.explorerObj.update(viewData);
               }
@@ -150,7 +151,8 @@ module.exports = {
                   vm.$data.explorerObj = new Explorer(container, viewData, { titleProperty: "title", iconProperty: "iconUrl",
                   childNodesProperty: "childNodes",
                   clickProperty: "onclick",
-                  contextMenuProperty: "contextMenu"
+                  contextMenuProperty: "contextMenu",
+                  idProperty: "id"
                 });
               }
           }

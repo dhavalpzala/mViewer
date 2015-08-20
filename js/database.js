@@ -69,9 +69,7 @@ var Database = (function() {
               for (var i in cols) {
                 var colName = cols[i].collectionName;
                 if (colName !== 'system.indexes' && colName !== 'system.users') {
-                  collectionsList.push({
-                    collectionName: colName
-                  });
+                  collectionsList.push(colName);
                 }
               }
               resolve(collectionsList);
