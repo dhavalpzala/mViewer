@@ -79,32 +79,40 @@
       newContents.forEach(function(item, index){
         nodeIndex = getNodeIndex(oldContents, item.id, startIndex);
         if(nodeIndex === -1){ // new node
-            var newNode = document.createElement('div');
-            createTreeView(newNode,[item], options);
-            currentElement.insertBefore(newNode.children[0], currentElement.children[index]);
-            elementIndexOffset++;
+          var newNode = document.createElement('div');
+          createTreeView(newNode,[item], options);
+          currentElement.insertBefore(newNode.children[0], currentElement.children[index]);
+          elementIndexOffset++;
         }
         else{
           var node = currentElement.children[nodeIndex + elementIndexOffset];
-              childNode = node.querySelector(".explorer-child-node");
+          childNode = node.querySelector(".explorer-child-node");
           //set node position
           if( (nodeIndex + elementIndexOffset) !== index){
-              currentElement.insertBefore(node, currentElement.children[index]);
+            currentElement.insertBefore(node, currentElement.children[index]);
           }
           if(nodeIndex === startIndex){
             startIndex++;
           }
           if(childNodesProperty && item[childNodesProperty] && item[childNodesProperty].length){
             if(!childNode){
-                var explorerIcon = node.querySelector(".explorer-icon");
-                explorerIcon.addEventListener("click", toggleChildNodes);
-                explorerIcon.classList.remove("explorer-hidden");
+              var explorerIcon = node.querySelector(".explorer-icon");
+              explorerIcon.addEventListener("click", toggleChildNodes);
+              explorerIcon.classList.remove("explorer-hidden");
 
-                childNode = document.createElement('div');
-                childNode.className = "explorer-child-node explorer-child-node-margin explorer-hide";
-                node.appendChild(childNode);
+              childNode = document.createElement('div');
+              childNode.className = "explorer-child-node explorer-child-node-margin explorer-hide";
+              node.appendChild(childNode);
             }
             updateTreeView( childNode,oldContents[nodeIndex][childNodesProperty], item[childNodesProperty]);
+          }
+          else if(childNode){
+            var parentNode = childNode.parentNode;
+            parentNode.removeChild(childNode);
+
+            var explorerIcon = parentNode.querySelector(".explorer-icon");
+            explorerIcon.removeEventListener("click", toggleChildNodes);
+            explorerIcon.classList.add("explorer-hidden");
           }
         }
       });
@@ -112,54 +120,19 @@
       //for removed node
       for(index = newContents.length; index < currentElement.children.length; index++){
         if(!currentElement.children[index].classList.contains("explorer-contextmenu")){
-        currentElement.removeChild(currentElement.children[index]);
+          currentElement.removeChild(currentElement.children[index]);
 
-        if(currentElement.children.length === 0){
-         var parentNode = currentElement.parentNode;
-         parentNode.removeChild(currentElement);
+          if(currentElement.children.length === 0){
+            var parentNode = currentElement.parentNode;
+            parentNode.removeChild(currentElement);
 
-         var explorerIcon = parentNode.querySelector(".explorer-icon");
-         explorerIcon.removeEventListener("click", toggleChildNodes);
-         explorerIcon.classList.add("explorer-hidden");
+            var explorerIcon = parentNode.querySelector(".explorer-icon");
+            explorerIcon.removeEventListener("click", toggleChildNodes);
+            explorerIcon.classList.add("explorer-hidden");
+          }
         }
       }
-     }
     }
-
-    // function updateTreeView(currentElement, oldContents, newContents){
-    //   var result, node;
-    //   newContents.forEach(function(item, index){
-    //     //added condition
-    //     if(oldContents.length <= index){
-    //       createTreeView(currentElement, [newContents[index]],options);
-    //     }
-    //     else{
-    //       result = objectComparator(oldContents[index], item);
-    //       if(result.length > 0){
-    //         node = currentElement.children[index];
-    //         result.forEach(function(resultItem){
-    //           if(resultItem.property === titleProperty){
-    //             node.querySelector(".explorer-title").style.color = "green";
-    //             node.querySelector(".explorer-title").innerHTML = item[titleProperty];
-    //           }
-    //           if(resultItem.property === childNodesProperty){
-    //             var childNode = node.querySelector(".explorer-child-node");
-    //             if(!childNode){
-    //               var explorerIcon = node.querySelector(".explorer-icon");
-    //               explorerIcon.addEventListener("click", toggleChildNodes);
-    //               explorerIcon.classList.remove("explorer-hidden");
-    //
-    //               childNode = document.createElement('div');
-    //               childNode.className = "explorer-child-node explorer-child-node-margin explorer-hide";
-    //               node.appendChild(childNode);
-    //             }
-    //             updateTreeView(childNode, oldContents[index][childNodesProperty], item[childNodesProperty]);
-    //           }
-    //         });
-    //       }
-    //     }
-    //   });
-    // }
 
     function toggleChildNodes(event){
       var icon = event.currentTarget;
@@ -232,75 +205,6 @@
     //create tree view
     createTreeView(element, contents, options);
 
-    //object comparator function
-    function objectComparator(sourceObject, targetObject){
-      var result = [];
-
-      //check for added and changed property
-      for (var property in targetObject) {
-        if(sourceObject[property] !== undefined){
-          if(typeof targetObject[property] === 'function'){
-
-          }
-          else if(typeof targetObject[property] === 'object'){
-            if(objectComparator(sourceObject[property] , targetObject[property]).length > 0){
-              result.push({property: property, comment: "changed"});
-            }
-          }
-
-          else if(Array.isArray(targetObject[property])){
-            if(!arrayComparator(sourceObject[property] , targetObject[property])){
-              result.push({property: property, comment: "changed"});
-            }
-          }
-          else if(sourceObject[property] !== targetObject[property]){
-            result.push({property: property, comment: "changed"});
-          }
-        }
-        else{
-          result.push({property: property, comment: "added"});
-        }
-      }
-
-      //check for removed property
-      for (var property in sourceObject) {
-        if(targetObject[property] === undefined){
-          result.push({property: property, comment: "removed"});
-        }
-      }
-
-      return result;
-    }
-
-    function arrayComparator(sourceArray, targetArray){
-      if(Array.isArray(sourceArray) && Array.isArray(targetArray) && sourceArray.length === targetArray.length){
-        for (var index = 0; index < targetArray.length; index++) {
-          var item = targetArray[index];
-          if(typeof item === 'function'){
-
-          }
-          else if(typeof item === 'object'){
-            if(objectComparator(sourceArray[index] , item).length > 0){
-              return false;
-            }
-          }
-
-          else if(Array.isArray(item)){
-            if(arrayComparator(sourceArray[index] , item)){
-              return false;
-            }
-          }
-          else if(sourceArray[index] !== item){
-            return false;
-          }
-        }
-        return true;
-      }
-      else{
-        return false;
-      }
-    }
-
     //add contextmenu
     var contextNode = document.createElement('div');
     contextNode.classList.add("explorer-contextmenu");
@@ -308,19 +212,3 @@
     element.appendChild(contextNode);
   }
 })();
-
-// var data = [{"id":"databases","title":"Databases","iconUrl":"../images/db-icon.jpg","childNodes":[{"id":"admin","title":"admin","iconUrl":"../images/database-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"id":"hello","title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"asdsad","title":"asdsad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"admincoll","title":"admincoll","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"collection1","title":"collection1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"collections2","title":"collections2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"id":"local","title":"local","iconUrl":"../images/database-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"id":"startup_log","title":"startup_log","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"hello","title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"asdaddasd","title":"asdaddasd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"coll2","title":"coll2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"colll4","title":"colll4","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"id":"test","title":"test","iconUrl":"../images/database-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]}],"contextMenu":[{"title":"Add Database"}]}];
-// var data = [{"id":"databases","title":"Databases","iconUrl":"../images/db-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg"}, {"id":"collections 1","title":"Collections 1","iconUrl":"../images/folder-icon.jpg"},{"id":"admin","title":"admin","iconUrl":"../images/database-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"id":"hello","title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"asdsad","title":"asdsad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"admincoll","title":"admincoll","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"collection1","title":"collection1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"collections2","title":"collections2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"id":"local","title":"local","iconUrl":"../images/database-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"id":"startup_log","title":"startup_log","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"hello","title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"asdaddasd","title":"asdaddasd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"coll2","title":"coll2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"colll4","title":"colll4","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"id":"test","title":"test","iconUrl":"../images/database-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"id":"collections58","title":"Collections58","iconUrl":"../images/folder-icon.jpg"}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]}],"contextMenu":[{"title":"Add Database"}]}];
-// var container = document.getElementById("explorer-container-test");
-// var expObj = new Explorer(container, data ,{ titleProperty: "title", iconProperty: "iconUrl",
-// childNodesProperty: "childNodes",
-// clickProperty: "onclick",
-// contextMenuProperty: "contextMenu"
-// });
-//
-// var dataT = [{"id":"databases","title":"Databases","iconUrl":"../images/db-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg"}, {"id":"collections 1","title":"Collections 1","iconUrl":"../images/folder-icon.jpg"},{"id":"admin","title":"admin","iconUrl":"../images/database-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"id":"hello","title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"asdsad","title":"asdsad","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"admincoll","title":"admincoll","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"collection1","title":"collection1","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"collections2","title":"collections2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"id":"local","title":"local","iconUrl":"../images/database-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"id":"startup_log","title":"startup_log","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"hello","title":"hello","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"asdaddasd","title":"asdaddasd","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"coll2","title":"coll2","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]},{"id":"colll4","title":"colll4","iconUrl":"../images/collection-icon.png","contextMenu":[{"title":"Add Record"},{"title":"Drop Collection"}]}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]},{"id":"test","title":"test","iconUrl":"../images/database-icon.jpg","childNodes":[{"id":"collections","title":"Collections","iconUrl":"../images/folder-icon.jpg","childNodes":[{"id":"collections59","title":"Collections59","iconUrl":"../images/folder-icon.jpg"},{"id":"collections58","title":"Collections 12345","iconUrl":"../images/folder-icon.jpg"},{"id":"collections60","title":"Collection60","iconUrl":"../images/folder-icon.jpg"}],"contextMenu":[{"title":"Add Collection"}]}],"contextMenu":[{"title":"Drop Database"}]}],"contextMenu":[{"title":"Add Database"}]}];
-// expObj.update(dataT);
-
-// var target = { data: "", value: "", key: "adad", childNode: [{key: ""}]}
-// var source = { data: "", item: "", value:"asdad", childNode: [{}]}
-// console.log(objectComparator(source , target));
