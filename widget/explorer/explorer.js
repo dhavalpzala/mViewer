@@ -107,12 +107,7 @@
             updateTreeView( childNode,oldContents[nodeIndex][childNodesProperty], item[childNodesProperty]);
           }
           else if(childNode){
-            var parentNode = childNode.parentNode;
-            parentNode.removeChild(childNode);
-
-            var explorerIcon = parentNode.querySelector(".explorer-icon");
-            explorerIcon.removeEventListener("click", toggleChildNodes);
-            explorerIcon.classList.add("explorer-hidden");
+              deleteChildNode(childNode);
           }
         }
       });
@@ -123,15 +118,20 @@
           currentElement.removeChild(currentElement.children[index]);
 
           if(currentElement.children.length === 0){
-            var parentNode = currentElement.parentNode;
-            parentNode.removeChild(currentElement);
-
-            var explorerIcon = parentNode.querySelector(".explorer-icon");
-            explorerIcon.removeEventListener("click", toggleChildNodes);
-            explorerIcon.classList.add("explorer-hidden");
+              deleteChildNode(currentElement);
           }
         }
       }
+    }
+
+    function deleteChildNode(childNode){
+      var parentNode = childNode.parentNode;
+      parentNode.removeChild(childNode);
+
+      var explorerIcon = parentNode.querySelector(".explorer-icon");
+      explorerIcon.removeEventListener("click", toggleChildNodes);
+      explorerIcon.classList.add("explorer-hidden");
+      explorerIcon.classList.add("collapsed");
     }
 
     function toggleChildNodes(event){

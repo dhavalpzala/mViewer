@@ -1,12 +1,14 @@
 module.exports = {
   template: '#homeTemplate',
+  props: {
+    explorerObj: null,
+    explorerViewData: null
+  },
   data: function () {
     return {
       records: [],
       selectedDb: null,
-      selectedCollection: null,
-      explorerObj: null,
-      explorerViewData: null
+      selectedCollection: null
     }
   },
   methods: {
@@ -35,10 +37,7 @@ module.exports = {
       var vm = this;
       var promise = dbClient.addDatabase(dbName);
       promise.then(function(){
-        var viewData = JSON.parse(JSON.stringify(vm.$data.explorerViewData))
-        viewData[0].childNodes.push(vm.createDbNode(dbName));
-        vm.$data.explorerObj.update(viewData);
-        vm.$data.explorerViewData = viewData;
+          vm.updateTreeView("addDatabase", dbName);
       }, vm.errorHandler);
       return promise;
     },
@@ -46,17 +45,7 @@ module.exports = {
       var vm = this;
       var promise = dbClient.addCollection(this.selectedDb, collectionName);
       promise.then(function(){
-        var viewData = JSON.parse(JSON.stringify(vm.$data.explorerViewData)),
-            dbName = vm.selectedDb;
-
-        viewData[0].childNodes.forEach(function(item){
-            if(item.title === dbName){
-              item.childNodes[0].childNodes.push(vm.createCollectionNode(dbName, collectionName));
-              return false; // to break the loop
-            }
-        });
-        vm.$data.explorerObj.update(viewData);
-        vm.$data.explorerViewData = viewData;
+        vm.updateTreeView("addCollection", vm.selectedDb, collectionName);
       }, vm.errorHandler);
       return promise;
     },
@@ -71,25 +60,52 @@ module.exports = {
     dropDatabase: function(dbName) {
       var vm = this;
       dbClient.dropDatabase(dbName).then(function(){
-        var viewData = JSON.parse(JSON.stringify(vm.$data.explorerViewData));
-        viewData[0].childNodes.forEach(function(item, index){
-            if(item.title === dbName){
-              viewData[0].childNodes.splice(index,1);
-              return false; // to break the loop
-            }
-        });
-        vm.$data.explorerObj.update(viewData);
-        vm.$data.explorerViewData = viewData;
+        vm.updateTreeView("dropDatabase", dbName);
       }, vm.errorHandler);
     },
     dropCollection: function(dbName, collectionName) {
       var vm = this;
       dbClient.dropCollection(dbName, collectionName).then(function(){
-        vm.generateTreeView();
+        vm.updateTreeView("dropCollection", dbName, collectionName);
       }, vm.errorHandler);
     },
     errorHandler: function(ex){
       alert("Something went wrong");
+    },
+
+    //explorer treeview functionality
+    getDbNode: function(viewData, dbName){
+      var node = null;
+      viewData[0].childNodes.forEach(function(item,index){
+        if(item.title === dbName){
+          node = {index: index, value: item};
+          return false; // to break the loop
+        }
+      });
+      return node;
+    },
+    getCollectionNode: function (viewData, dbName, collectionName) {
+      var dbNode = this.getDbNode(viewData, dbName),
+          node = null;
+      if(dbNode){
+        dbNode.value.childNodes[0].childNodes.forEach(function(item, index){
+          if(item.title === collectionName){
+            node = {index: index, value: item};
+            return false; // to break the loop
+          }
+        });
+      }
+      return node;
+    },
+    getDbParentNode: function(viewData){
+      return viewData[0].childNodes;
+    },
+    getCollectionParentNode: function(viewData, dbName){
+       var dbNode = this.getDbNode(viewData, dbName), node = null;
+       if(dbNode){
+         node = dbNode.value.childNodes[0].childNodes;
+       }
+       return node;
     },
     createDbNode: function(dbName){
       var node = {}, collectionsNode = {}, vm = this;
@@ -152,58 +168,100 @@ module.exports = {
         rootNode.title = "Databases";
         rootNode.iconUrl = "../images/db-icon.jpg";
         rootNode.childNodes = [];
-        rootNode.contextMenu = [{title: "Add Database",
-        onclick: function(){
+        rootNode.contextMenu = [{title: "Add Database",onclick: function(){
           $("#add-database-Modal").modal('show');
+        }}];
+
+        viewData.push(rootNode);
+
+        dbs.forEach(function(db, index, array){
+          var node = vm.createDbNode(db), collectionsNode = node.childNodes[0];
+          rootNode.childNodes.push(node);
+
+          // get collections
+          dbClient.getCollections(db).then(function(collections){
+            if(collections && collections.length){
+              collections.forEach(function(collection){
+                var childNode = vm.createCollectionNode(db, collection);
+                collectionsNode.childNodes.push(childNode);
+              });
+            }
+
+            // last database element
+            counter--;
+            if(counter === 0){
+              if(vm.explorerObj){
+                vm.explorerObj.update(viewData);
+              }
+              else{
+                vm.explorerViewData = viewData;
+                vm.explorerObj = new Explorer(container, viewData, 
+                  { titleProperty: "title", iconProperty: "iconUrl",
+                childNodesProperty: "childNodes", clickProperty: "onclick",
+                contextMenuProperty: "contextMenu", idProperty: "id" });
+              }
+            }
+          });
+        });
+      });
+    },
+    updateTreeView: function(action, dbName, collectionName){
+      var vm = this;
+      var viewData = JSON.parse(JSON.stringify(vm.explorerViewData));
+      if(action === "addCollection"){
+        var parentNode = vm.getCollectionParentNode(viewData, dbName);
+        if(parentNode){
+          parentNode.push(vm.createCollectionNode(dbName,collectionName));
         }
-      }];
-
-      viewData.push(rootNode);
-
-      dbs.forEach(function(db, index, array){
-        var node = vm.createDbNode(db), collectionsNode = node.childNodes[0];
-        rootNode.childNodes.push(node);
-
-        // get collections
-        dbClient.getCollections(db).then(function(collections){
-          if(collections && collections.length){
-            collections.forEach(function(collection){
-              var childNode = vm.createCollectionNode(db, collection);
-              collectionsNode.childNodes.push(childNode);
-            });
-          }
-
-          // last database element
-          counter--;
-          if(counter === 0){
-            if(vm.$data.explorerObj){
-              vm.$data.explorerObj.update(viewData);
+        else{
+            console.log("parent node is not found"); // testing
+        }
+      }
+      else if(action === "dropCollection"){
+        var parentNode = vm.getCollectionParentNode(viewData, dbName);
+        if(parentNode){
+            var node = vm.getCollectionNode(viewData, dbName, collectionName);
+            if(node){
+                parentNode.splice(node.index, 1);
             }
             else{
-              vm.$data.explorerViewData = viewData;
-              vm.$data.explorerObj = new Explorer(container, viewData, { titleProperty: "title", iconProperty: "iconUrl",
-              childNodesProperty: "childNodes",
-              clickProperty: "onclick",
-              contextMenuProperty: "contextMenu",
-              idProperty: "id"
-            });
-          }
+                console.log("collection node is not found"); // testing
+            }
         }
-      });
-    });
-  });
-}
-},
-attached: function(){
-  // vm = this;
-  // dbClient.getDatabases().then(function(dbs){
-  //   dbs.forEach(function(db, index, array){
-  //     if(db !== 'admin'){
-  //       dbClient.dropDatabase(db).then(function(){
-  //       },vm.errorHandler);
-  //     }
-  //   });
-  // });
-  this.generateTreeView();
-}
+        else{
+            console.log("parent node is not found"); // testing
+        }
+      }
+      else if(action === "addDatabase"){
+        var parentNode = vm.getDbParentNode(viewData);
+        if(parentNode){
+          parentNode.push(vm.createDbNode(dbName));
+        }
+        else{
+            console.log("parent node is not found"); // testing
+        }
+      }
+      else if(action === "dropDatabase"){
+        var parentNode = vm.getDbParentNode(viewData);
+        if(parentNode){
+            var node = vm.getDbNode(viewData, dbName);
+            if(node){
+                parentNode.splice(node.index, 1);
+            }
+            else{
+                console.log("database node is not found"); // testing
+            }
+        }
+        else{
+            console.log("parent node is not found"); // testing
+        }
+      }
+
+      vm.explorerObj.update(viewData);
+      vm.explorerViewData = viewData;
+    }
+  },
+  attached: function(){
+    this.generateTreeView();
+  }
 };
